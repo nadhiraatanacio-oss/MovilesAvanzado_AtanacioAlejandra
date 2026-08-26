@@ -26,7 +26,10 @@ let montobase = subtotal - descuento
 let igvcalculo = montobase * igv
 let total = montobase + igvcalculo
 
-//n
+print("El monto base es \(montobase)")
+print("El IGV es \(igvcalculo)")
+print("El total es \(total)")
+
 
 
 // hallar el monto base: subtotal - descuento
