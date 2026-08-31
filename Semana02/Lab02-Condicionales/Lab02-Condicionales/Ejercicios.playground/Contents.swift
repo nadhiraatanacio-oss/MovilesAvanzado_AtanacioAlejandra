@@ -100,3 +100,4 @@ if esLunes && llueve {
 } else {
     print("Ni lunes ni llueve")
 } // PREDICT 3: "Es lunes O llueve"
+//me olvide la rama manual 
