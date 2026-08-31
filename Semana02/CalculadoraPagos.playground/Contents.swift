@@ -26,12 +26,3 @@ while plan != 6 && plan != 12 && plan != 24 {
 print("Plan seleccionado: \(plan) meses")
 
 
-// Pago adelantado
-print("¿En qué mes hará un pago adelantado? (0 ninguno): ", terminator: "")
-let mesAdelanto = Int(readLine() ?? "") ?? 0
-
-var montoAdicional = 0.0
-if mesAdelanto > 0 {
-    print("Monto Adicional a pagar ese mes (S/.): ", terminator: "")
-    montoAdicional = Double(readLine() ?? "") ?? 0.0
-}
