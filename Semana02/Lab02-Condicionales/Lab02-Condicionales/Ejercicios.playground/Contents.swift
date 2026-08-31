@@ -166,3 +166,63 @@ switch letra {
 case "a", "e", "i", "o", "u": print("Vocal")
 default: print("Consonante")
 } // PREDICT 5: "Vocal"
+// ===== EJERCICIO 3: FOR-IN =====
+// --- Ejemplo (ya resuelto): ---
+// Imprime los números del 1 al 5:
+for i in 1...5 {
+    print("Número: \(i)")
+}
+
+// --- TODO 7: Tabla de multiplicar del 7 ---
+// Imprime: 7 x 1 = 7, 7 x 2 = 14, ... 7 x 12 = 84
+for i in 1...12 {
+    print("7 x \(i) = \(7 * i)")
+}
+
+// --- TODO 8: Sumatoria del 1 al 100 ---
+var suma = 0
+for i in 1...100 {
+    suma = suma + i
+}
+print("La suma del 1 al 100 es: \(suma)") // Debe dar 5050
+
+// --- TODO 9: Calcular el factorial de 8 ---
+// 8! = 8 × 7 × 6 × 5 × 4 × 3 × 2 × 1 = 40320
+var factorial = 1
+for i in 1...8 {
+    factorial = factorial * i
+}
+print("8! = \(factorial)")
+
+// --- TODO 10: Patrón de asteriscos ---
+for i in 1...5 {
+    print(String(repeating: "*", count: i))
+}
+
+// ===== FIX: Encuentra los 2 errores =====
+// FIX 4: la condición estaba al revés (imprimía impares, no pares)
+for i in 2...20 {
+    if i % 2 == 0 {
+        print(i)
+    }
+}
+
+// FIX 5: contaba hacia adelante (1...10), había que usar stride para contar hacia atrás
+for i in stride(from: 10, through: 1, by: -1) {
+    print(i)
+}
+
+// PREDICT: ¿Cuántas veces se ejecuta y qué imprime al final?
+var total = 0
+for i in 1...5 {
+    total += i
+}
+print(total) // PREDICT 6: Valor final = 15, se ejecuta 5 veces (1+2+3+4+5)
+
+var texto = ""
+for _ in 1...3 {
+    texto += "Hola "
+}
+print(texto) // PREDICT 7: "Hola Hola Hola "
+// El "_" se usa cuando no necesitas el valor del contador dentro del bucle,
+// solo quieres repetir la acción un número determinado de veces.
