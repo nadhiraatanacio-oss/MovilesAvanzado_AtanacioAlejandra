@@ -35,3 +35,10 @@ if mesAdelanto > 0 {
     print("Monto Adicional a pagar ese mes (S/.): ", terminator: "")
     montoAdicional = Double(readLine() ?? "") ?? 0.0
 }
+
+
+// función para alinear columnas
+func pad(_ texto: String, _ ancho: Int) -> String {
+    if texto.count >= ancho { return texto }
+    return texto + String(repeating: " ", count: ancho - texto.count)
+}
