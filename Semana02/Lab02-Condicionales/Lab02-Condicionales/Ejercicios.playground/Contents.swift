@@ -166,15 +166,14 @@ switch letra {
 case "a", "e", "i", "o", "u": print("Vocal")
 default: print("Consonante")
 } // PREDICT 5: "Vocal"
+
 // ===== EJERCICIO 3: FOR-IN =====
 // --- Ejemplo (ya resuelto): ---
-// Imprime los números del 1 al 5:
 for i in 1...5 {
     print("Número: \(i)")
 }
 
 // --- TODO 7: Tabla de multiplicar del 7 ---
-// Imprime: 7 x 1 = 7, 7 x 2 = 14, ... 7 x 12 = 84
 for i in 1...12 {
     print("7 x \(i) = \(7 * i)")
 }
@@ -187,7 +186,6 @@ for i in 1...100 {
 print("La suma del 1 al 100 es: \(suma)") // Debe dar 5050
 
 // --- TODO 9: Calcular el factorial de 8 ---
-// 8! = 8 × 7 × 6 × 5 × 4 × 3 × 2 × 1 = 40320
 var factorial = 1
 for i in 1...8 {
     factorial = factorial * i
@@ -226,3 +224,69 @@ for _ in 1...3 {
 print(texto) // PREDICT 7: "Hola Hola Hola "
 // El "_" se usa cuando no necesitas el valor del contador dentro del bucle,
 // solo quieres repetir la acción un número determinado de veces.
+
+// ===== EJERCICIO 4: WHILE =====
+// --- Ejemplo (ya resuelto): ---
+var contador = 5
+while contador > 0 {
+    print("Cuenta regresiva: \(contador)")
+    contador -= 1
+}
+print("¡Despegue!")
+
+// --- TODO 11: Ahorro mensual ---
+var ahorro = 0.0
+var meses = 0
+let meta = 2000.0
+let ahorroMensual = 150.0
+while ahorro < meta {
+    ahorro += ahorroMensual
+    meses += 1
+}
+print("Necesita \(meses) meses para juntar S/. \(meta)")
+
+// --- TODO 12: División sucesiva ---
+// (renombrado a "numeroDivision" para no chocar con "numero" del Ejercicio 1)
+var numeroDivision = 1000.0
+var divisiones = 0
+while numeroDivision >= 1 {
+    numeroDivision = numeroDivision / 2
+    divisiones += 1
+    print("División \(divisiones): \(numeroDivision)")
+}
+print("Se dividió \(divisiones) veces")
+
+// --- TODO 13: Validar datos con repeat-while ---
+let intento1 = 25 // Inválido: > 20
+let intento2 = -3 // Inválido: < 0
+let intento3 = 15 // Válido
+
+var intentoActual = intento1
+var esValido = false
+var numIntento = 1
+repeat {
+    if intentoActual >= 0 && intentoActual <= 20 {
+        esValido = true
+        print("Nota \(intentoActual) válida en intento \(numIntento)")
+    } else {
+        print("Nota \(intentoActual) inválida, intento \(numIntento)")
+        if numIntento == 1 { intentoActual = intento2 }
+        if numIntento == 2 { intentoActual = intento3 }
+        numIntento += 1
+    }
+} while !esValido
+
+// PREDICT: ¿Cuántas veces se ejecuta cada bucle?
+var a = 100
+while a > 1 {
+    a = a / 3
+}
+print(a) // PREDICT 8: Valor final = 1 (100/3=33, /3=11, /3=3, /3=1 → 4 vueltas)
+
+var b = 0
+repeat {
+    b += 1
+} while b < 0
+print(b) // PREDICT 9: Valor final = 1
+// repeat-while ejecuta el bloque al menos una vez porque revisa la condición
+// DESPUÉS de correr el código, no antes (a diferencia de while).
