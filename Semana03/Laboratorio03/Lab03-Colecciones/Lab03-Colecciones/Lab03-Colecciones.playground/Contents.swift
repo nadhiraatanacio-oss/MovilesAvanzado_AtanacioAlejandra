@@ -1,3 +1,3 @@
 import Cocoa
 
-var greeting = "Hello, playground"
+var greeting = "Hello, Lab03"
