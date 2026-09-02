@@ -78,3 +78,5 @@ print(sep)
 print("TOTAL: S/. \(totalFinal)")
 print(sep)
 print("¡Gracias por su compra, \(cliente)!")
+
+//Error de commit
