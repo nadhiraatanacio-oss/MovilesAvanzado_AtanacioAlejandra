@@ -1,82 +1,126 @@
 // Desarrollado por: Ale
+// Ejercicio 7: Inventario con menú
+
 import Foundation
 
-var nombres: [String] = []
-var precios: [Double] = []
-var cantidades: [Int] = []
+// ===== REGISTRO DE PRODUCTOS =====
 
-// TODO 11: Pedir productos
-print("¿Cuántos productos va a comprar?")
-let totalProductos = Int(readLine() ?? "") ?? 0
+var nombresProd: [String] = []
+var preciosProd: [Double] = []
+var stocksProd: [Int] = []
 
-if totalProductos > 0 {
-    for i in 1...totalProductos {
-        print("\nProducto \(i) - Nombre:")
-        nombres.append(readLine() ?? "")
-        print("Precio unitario:")
-        precios.append(Double(readLine() ?? "") ?? 0)
-        print("Cantidad:")
-        cantidades.append(Int(readLine() ?? "") ?? 0)
+print("¿Cuántos productos vas a registrar?")
+
+let totalProd = Int(readLine() ?? "") ?? 0
+
+// Registrar productos
+for i in 0..<totalProd {
+
+    print("\nProducto \(i + 1) - Nombre:")
+    let nombre = readLine() ?? ""
+    nombresProd.append(nombre)
+
+    print("Precio:")
+    let precio = Double(readLine() ?? "") ?? 0
+    preciosProd.append(precio)
+
+    print("Stock:")
+    let stock = Int(readLine() ?? "") ?? 0
+    stocksProd.append(stock)
+}
+
+// ===== MENÚ INVENTARIO =====
+
+var opcion = 0
+
+while opcion != 5 {
+
+    print("\n===== MENÚ INVENTARIO =====")
+    print("1) Ver inventario")
+    print("2) Buscar producto")
+    print("3) Ver stock bajo")
+    print("4) Ver valor total")
+    print("5) Salir")
+    print("Elige una opción:")
+
+    opcion = Int(readLine() ?? "") ?? 0
+
+    switch opcion {
+
+    // OPCIÓN 1: VER INVENTARIO
+    case 1:
+
+        print("\n===== INVENTARIO =====")
+
+        if nombresProd.isEmpty {
+            print("No hay productos registrados")
+        } else {
+            for i in 0..<nombresProd.count {
+                print("\(nombresProd[i]) - Precio: S/. \(preciosProd[i]) - Stock: \(stocksProd[i])")
+            }
+        }
+
+    // OPCIÓN 2: BUSCAR PRODUCTO
+    case 2:
+
+        print("\nNombre a buscar:")
+
+        let buscado = readLine() ?? ""
+
+        if let indice = nombresProd.firstIndex(of: buscado) {
+
+            print("\nProducto encontrado:")
+            print("\(nombresProd[indice]) - Precio: S/. \(preciosProd[indice]) - Stock: \(stocksProd[indice])")
+
+        } else {
+
+            print("Producto no encontrado")
+
+        }
+
+    // OPCIÓN 3: VER STOCK BAJO
+    case 3:
+
+        print("\n===== STOCK BAJO (menos de 5) =====")
+
+        var hayStockBajo = false
+
+        for i in 0..<nombresProd.count {
+
+            if stocksProd[i] < 5 {
+
+                print("\(nombresProd[i]): \(stocksProd[i]) unidades")
+
+                hayStockBajo = true
+            }
+        }
+
+        if !hayStockBajo {
+            print("No hay productos con stock bajo")
+        }
+
+    // OPCIÓN 4: VALOR TOTAL
+    case 4:
+
+        var valorTotal = 0.0
+
+        for i in 0..<nombresProd.count {
+
+            valorTotal += preciosProd[i] * Double(stocksProd[i])
+
+        }
+
+        print("\nValor total del inventario: S/. \(valorTotal)")
+
+    // OPCIÓN 5: SALIR
+    case 5:
+
+        print("\nSaliendo del inventario...")
+
+    // OPCIÓN INVÁLIDA
+    default:
+
+        print("\nOpción inválida, intenta de nuevo")
+
     }
-} else {
-    print("No ingresaste una cantidad válida.")
 }
-// TODO 12: Calcular subtotales
-var subtotales: [Double] = []
-for i in 0..<nombres.count {
-    let sub = precios[i] * Double(cantidades[i])
-    subtotales.append(sub)
-}
-
-// TODO 13: Total del carrito
-var totalCarrito = 0.0
-for sub in subtotales {
-    totalCarrito += sub
-}
-
-// TODO 14: Nombre del cliente
-print("\nNombre del cliente:")
-let cliente = readLine() ?? ""
-
-// TODO 15: Descuento
-var descPct = 0.0
-if totalCarrito >= 5000 { descPct = 0.15 }
-else if totalCarrito >= 2000 { descPct = 0.10 }
-else if totalCarrito >= 500 { descPct = 0.05 }
-let descuento = totalCarrito * descPct
-let totalConDesc = totalCarrito - descuento
-
-// TODO 16: IGV y total
-let igv = totalConDesc * 0.18
-let totalFinal = totalConDesc + igv
-
-// TODO 17: Categoría
-var categoria = ""
-switch Int(totalCarrito) {
-case 0..<500: categoria = "Regular"
-case 500..<2000: categoria = "Frecuente"
-case 2000..<5000: categoria = "VIP"
-default: categoria = "Premium"
-}
-
-// TODO 18: Ticket
-let sep = String(repeating: "=", count: 45)
-print(sep)
-print(" TICKET DE COMPRA 2.0")
-print(" Cliente: \(cliente) (\(categoria))")
-print(sep)
-for i in 0..<nombres.count {
-    print("\(nombres[i]) x\(cantidades[i]) S/. \(subtotales[i])")
-}
-print(sep)
-print("Subtotal: S/. \(totalCarrito)")
-if descPct > 0 {
-    print("Descuento (\(descPct*100)%): -S/. \(descuento)")
-}
-print("IGV (18%): S/. \(igv)")
-print(sep)
-print("TOTAL: S/. \(totalFinal)")
-print(sep)
-print("¡Gracias por su compra, \(cliente)!")
-
-//Error de commit
