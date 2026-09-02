@@ -50,7 +50,7 @@ var colores = ["Rojo", "Azul", "Verde"] // FIX 2: era "let", no se puede mutar u
 colores.append("Amarillo")
 
 let numeros = [10, 20, 30, 40, 50]
-print(numeros[4]) // FIX 3: el array tiene 5 elementos (índices 0 a 4), el índice 5 no existe
+print(numeros[4]) // FIX 3: el array tiene 5 elementos (índices 0 a 4), el índice 5 no exist
 
 //PREDICT
 
