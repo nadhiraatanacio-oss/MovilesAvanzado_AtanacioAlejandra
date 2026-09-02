@@ -1,65 +1,49 @@
-// Desarrollado por: Alejandra Atanacio
-// Ejercicio 1: Arrays
+
+// Desarrollado por: Alejandra At
 import Foundation
 
-// ===== TODO 1: Registro de 5 alumnos =====
-var alumnos: [String] = []
-for i in 1...5 {
-    print("Nombre del alumno \(i):")
+// ===== TODO 4: Catálogo de productos =====
+var productos: [String: Double] = [:]
+for i in 1...4 {
+    print("Producto \(i) - Nombre:")
     let nombre = readLine() ?? ""
-    alumnos.append(nombre)
+    print("Precio:")
+    let precio = Double(readLine() ?? "") ?? 0
+    productos[nombre] = precio
 }
-print("Alumnos: \(alumnos)")
 
-// ===== TODO 2: Buscar un alumno =====
-print("Buscar alumno:")
-let buscar = readLine() ?? ""
-if alumnos.contains(buscar) {
-    print("\(buscar) está en la lista")
+// ===== TODO 5: Mostrar catálogo =====
+print("===== CATÁLOGO =====")
+for (nombre, precio) in productos {
+    print("\(nombre): S/. \(precio)")
+}
+
+// ===== TODO 6: Valor total =====
+var valorTotal = 0.0
+for (_, precio) in productos {
+    valorTotal += precio
+}
+print("Valor total: S/. \(valorTotal)")
+
+// ===== TODO 7: Buscar producto =====
+print("Buscar producto:")
+let buscarProd = readLine() ?? ""
+if let precioEncontrado = productos[buscarProd] {
+    print("\(buscarProd) cuesta S/. \(precioEncontrado)")
 } else {
-    print("\(buscar) NO está en la lista")
+    print("Producto no encontrado")
 }
 
-// ===== TODO 3: Notas con clasificación =====
-var notasClase: [Double] = []
-for i in 1...5 {
-    print("Nota del alumno \(i):")
-    let n = Double(readLine() ?? "") ?? 0
-    notasClase.append(n)
-}
+// 2
 
-var aprobados = 0
-var desaprobados = 0
-var sumaNotas = 0.0
-for nota in notasClase {
-    sumaNotas += nota
-    if nota >= 13 {
-        aprobados += 1
-    } else {
-        desaprobados += 1
+var edades: [String: Int] = ["Ana": 20, "Luis": 22, "María": 19]
+var mayores: [String] = []
+for (nombre, edad) in edades {
+    if edad >= 21 {
+        mayores.append(nombre)
     }
 }
-print("Promedio: \(sumaNotas / Double(notasClase.count))")
-print("Aprobados: \(aprobados), Desaprobados: \(desaprobados)")
-
-//Fix
-var frutas = ["Manzana", "Plátano", "Naranja"]
-frutas.append("Kiwi") // FIX 1: el array es de String, no puede recibir un Int7
-
-var colores = ["Rojo", "Azul", "Verde"] // FIX 2: era "let", no se puede mutar una constante → se cambia a "var"
-colores.append("Amarillo")
-
-let numeros = [10, 20, 30, 40, 50]
-print(numeros[4]) // FIX 3: el array tiene 5 elementos (índices 0 a 4), el índice 5 no exist
-
-//PREDICT
-
-var lista = [1, 2, 3, 4, 5]
-lista.remove(at: 0)
-lista.append(6)
-print(lista) // PREDICT 1: [2, 3, 4, 5, 6]
-print(lista.count) // PREDICT 2: 5
-
-var nombres = ["Ana", "Carlos", "Beto"]
-print(nombres.sorted()) // PREDICT 3: ["Ana", "Beto", "Carlos"]
-print(nombres) // PREDICT 4: ["Ana", "Carlos", "Beto"] -< sorted() no modifica el originalz
+print("Mayores de 21: \(mayores)")
+// ANALYZE 2: Recorre el diccionario "edades" y guarda en "mayores" los nombres cuya
+// edad es >= 21. En este caso imprime solo ["Luis"], porque Ana tiene 20 y María 19
+// El orden puede variar porque los diccionarios en Swift no tienen orden garantizado
