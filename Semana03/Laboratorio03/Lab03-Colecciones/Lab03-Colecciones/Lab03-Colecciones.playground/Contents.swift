@@ -1,49 +1,49 @@
-
-// Desarrollado por: Alejandra At
+// Desarrollado por: Ale
 import Foundation
 
-// ===== TODO 4: Catálogo de productos =====
-var productos: [String: Double] = [:]
+// ===== TODO 8: Eliminar duplicados =====
+var numeros: [Int] = []
+for i in 1...8 {
+    print("Número \(i):")
+    let n = Int(readLine() ?? "") ?? 0
+    numeros.append(n)
+}
+print("Con duplicados: \(numeros)")
+let sinDuplicados = Array(Set(numeros)).sorted()
+print("Sin duplicados: \(sinDuplicados)")
+
+// ===== TODO 9: Comparar asistencia =====
+var lunes: Set<String> = []
+print("\n===== ASISTENCIA LUNES =====")
 for i in 1...4 {
-    print("Producto \(i) - Nombre:")
+    print("Alumno \(i):")
     let nombre = readLine() ?? ""
-    print("Precio:")
-    let precio = Double(readLine() ?? "") ?? 0
-    productos[nombre] = precio
+    lunes.insert(nombre)
 }
 
-// ===== TODO 5: Mostrar catálogo =====
-print("===== CATÁLOGO =====")
-for (nombre, precio) in productos {
-    print("\(nombre): S/. \(precio)")
+var martes: Set<String> = []
+print("\n===== ASISTENCIA MARTES =====")
+for i in 1...4 {
+    print("Alumno \(i):")
+    let nombre = readLine() ?? ""
+    martes.insert(nombre)
 }
 
-// ===== TODO 6: Valor total =====
-var valorTotal = 0.0
-for (_, precio) in productos {
-    valorTotal += precio
-}
-print("Valor total: S/. \(valorTotal)")
+let ambosDias = lunes.intersection(martes)
+let soloLunes = lunes.subtracting(martes)
+let soloMartes = martes.subtracting(lunes)
 
-// ===== TODO 7: Buscar producto =====
-print("Buscar producto:")
-let buscarProd = readLine() ?? ""
-if let precioEncontrado = productos[buscarProd] {
-    print("\(buscarProd) cuesta S/. \(precioEncontrado)")
-} else {
-    print("Producto no encontrado")
-}
+print("\n===== RESULTADOS =====")
+print("Ambos días: \(ambosDias)")
+print("Solo lunes: \(soloLunes)")
+print("Solo martes: \(soloMartes)")
 
-// 2
+//
+let a: Set = [1, 2, 3, 4, 5]
+let b: Set = [4, 5, 6, 7, 8]
+print(a.intersection(b)) // PREDICT 5: [4, 5]
+print(a.union(b).count) // PREDICT 6: 8
+print(a.subtracting(b)) // PREDICT 7: [1, 2, 3]
 
-var edades: [String: Int] = ["Ana": 20, "Luis": 22, "María": 19]
-var mayores: [String] = []
-for (nombre, edad) in edades {
-    if edad >= 21 {
-        mayores.append(nombre)
-    }
-}
-print("Mayores de 21: \(mayores)")
-// ANALYZE 2: Recorre el diccionario "edades" y guarda en "mayores" los nombres cuya
-// edad es >= 21. En este caso imprime solo ["Luis"], porque Ana tiene 20 y María 19
-// El orden puede variar porque los diccionarios en Swift no tienen orden garantizado
+var repetidos: Set = ["A", "B", "A", "C", "B"]
+print(repetidos.count) // PREDICT 8: 3 → el Set elimina duplicados automáticamente
