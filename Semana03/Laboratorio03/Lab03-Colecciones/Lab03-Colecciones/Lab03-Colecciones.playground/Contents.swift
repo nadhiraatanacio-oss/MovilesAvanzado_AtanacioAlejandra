@@ -62,4 +62,4 @@ print(lista.count) // PREDICT 2: 5
 
 var nombres = ["Ana", "Carlos", "Beto"]
 print(nombres.sorted()) // PREDICT 3: ["Ana", "Beto", "Carlos"]
-print(nombres) // PREDICT 4: ["Ana", "Carlos", "Beto"] -< sorted() no modifica el original
+print(nombres) // PREDICT 4: ["Ana", "Carlos", "Beto"] -< sorted() no modifica el originalz
