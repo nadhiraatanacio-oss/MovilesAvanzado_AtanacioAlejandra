@@ -1,1 +1,34 @@
 
+//Mapa de Rutas - Metro de Lima
+
+Sistema de consulta en consola sobre las estaciones del Metro de Lima
+(Línea 1 y Línea 2), hecho con colecciones en Swift (arrays, diccionarios,
+sets y tuplas).
+
+//// Requerimientos funcionales
+
+1. Registrar cada estación con su línea, si tiene ascensor, sus avenidas
+   cercanas y si conecta con el Metropolitano.
+2. Permitir al usuario buscar una estación por nombre y ver su información.
+3. Permitir filtrar y listar las estaciones que pertenecen a una línea
+   específica.
+4. Mostrar con qué estaciones está conectada directamente cada estación
+   (la anterior y la siguiente en su línea).
+5. Mostrar un menú que se repita en consola hasta que el usuario decida
+   salir.
+
+/// Estructura de datos
+
+- `estaciones`: diccionario con el nombre de la estación como clave y
+  una tupla (línea, ascensor, avenidas, metropolitano) como valor.
+- `conexiones`: diccionario con el nombre de la estación como clave y
+  un array con sus estaciones vecinas.
+- `conAscensor`: set con las estaciones que cuentan con ascensor.
+
+## Cómo probarlo
+
+Correr el Playground y usar el menú:
+1. Buscar estación
+2. Ver estaciones por línea
+3. Ver con qué estaciones conecta
+4. Salir
