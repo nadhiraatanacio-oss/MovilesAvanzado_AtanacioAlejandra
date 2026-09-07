@@ -61,3 +61,17 @@ let conAscensor: Set<String> = [
 ]
 
 let estacionMetropolitano = "La Cultura"
+
+
+for nombre in ordenLinea1 {
+    let avenidas = avenidasLinea1[nombre] ?? []
+    let ascensor = conAscensor.contains(nombre)
+    let metropolitano = nombre == estacionMetropolitano
+    estaciones[nombre] = (linea: "Línea 1", ascensor: ascensor, avenidas: avenidas, metropolitano: metropolitano)
+}
+
+for nombre in ordenLinea2 {
+    let avenidas = avenidasLinea2[nombre] ?? []
+    let ascensor = conAscensor.contains(nombre)
+    estaciones[nombre] = (linea: "Línea 2", ascensor: ascensor, avenidas: avenidas, metropolitano: false)
+}
