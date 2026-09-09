@@ -1,4 +1,3 @@
-
 //Mapa de Rutas - Metro de Lima
 
 Sistema de consulta en consola sobre las estaciones del Metro de Lima
@@ -9,12 +8,20 @@ sets y tuplas).
 
 1. Registrar cada estación con su línea, si tiene ascensor, sus avenidas
    cercanas y si conecta con el Metropolitano.
-2. Permitir al usuario buscar una estación por nombre y ver su información.
+2. Permitir al usuario buscar una estación por nombre y ver su información
+   completa (línea, ascensor, avenidas, Metropolitano, lugares cercanos
+   y conexiones directas).
 3. Permitir filtrar y listar las estaciones que pertenecen a una línea
    específica.
 4. Mostrar con qué estaciones está conectada directamente cada estación
    (la anterior y la siguiente en su línea).
-5. Mostrar un menú que se repita en consola hasta que el usuario decida
+5. Calcular la cantidad de estaciones y el tiempo estimado de viaje entre
+   una estación de origen y una de destino, dentro de la misma línea.
+6. Mostrar la tarifa, el horario y el estado de las líneas futuras (Línea 3
+   y Línea 4), aclarando que esa información es referencial.
+7. Reconocer estaciones proyectadas de las líneas futuras aunque aún no
+   estén operativas, sin mezclarlas con las estaciones reales.
+8. Mostrar un menú que se repita en consola hasta que el usuario decida
    salir.
 
 /// Estructura de datos
@@ -24,11 +31,17 @@ sets y tuplas).
 - `conexiones`: diccionario con el nombre de la estación como clave y
   un array con sus estaciones vecinas.
 - `conAscensor`: set con las estaciones que cuentan con ascensor.
+- `lugaresCercanos`: diccionario con lugares de referencia (mall, parque,
+  hospital, etc.) cerca de cada estación.
+- `estacionesFuturas`: diccionario con nombre de estación y línea, para
+  las estaciones proyectadas de Línea 3 y 4 (aún no operativas).
 
 ## Cómo probarlo
 
-Correr el Playground y usar el menú:
+Correr el programa y usar el menú:
 1. Buscar estación
 2. Ver estaciones por línea
 3. Ver con qué estaciones conecta
-4. Salir
+4. Calcular tiempo entre dos estaciones
+5. Ver tarifas y horarios
+6. Salir
