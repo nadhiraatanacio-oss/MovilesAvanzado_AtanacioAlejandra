@@ -292,3 +292,50 @@ func mostrarTarifasYHorarios() {
         print("\(linea): \(estado)")
     }
 }
+
+//commit 6
+print("=== Sistema de consulta - Metro de Lima ===")
+
+var seguir = true
+while seguir {
+    print("\n1. Buscar estación")
+    print("2. Ver estaciones por línea")
+    print("3. Ver con qué estaciones conecta")
+    print("4. Calcular tiempo entre dos estaciones")
+    print("5. Ver tarifas y horarios")
+    print("6. Salir")
+    print("Elige una opción: ", terminator: "")
+
+    let opcion = readLine() ?? ""
+
+    if opcion == "1" {
+        print("Nombre de la estación: ", terminator: "")
+        let nombre = readLine() ?? ""
+        mostrarInfo(de: nombre)
+    } else if opcion == "2" {
+        print("Escribe la línea (Línea 1 / Línea 2): ", terminator: "")
+        let linea = readLine() ?? ""
+        listarPorLinea(linea)
+    } else if opcion == "3" {
+        print("Nombre de la estación: ", terminator: "")
+        let entrada = readLine() ?? ""
+        if let nombre = buscarNombreReal(entrada), let vecinas = conexiones[nombre] {
+            print("\(nombre) conecta con: \(vecinas.joined(separator: ", "))")
+        } else {
+            print("No encontré esa estación. Verifica que esté bien escrita e intenta de nuevo.")
+        }
+    } else if opcion == "4" {
+        print("Estación de origen: ", terminator: "")
+        let origen = readLine() ?? ""
+        print("Estación de destino: ", terminator: "")
+        let destino = readLine() ?? ""
+        calcularTiempo(desde: origen, hasta: destino)
+    } else if opcion == "5" {
+        mostrarTarifasYHorarios()
+    } else if opcion == "6" {
+        seguir = false
+        print("Listo, saliendo del sistema")
+    } else {
+        print("Opción no válida, elige un número del 1 al 6")
+    }
+}
