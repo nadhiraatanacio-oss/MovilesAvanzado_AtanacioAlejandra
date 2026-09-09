@@ -1,12 +1,10 @@
-
 import Foundation
 
 // Guardo cada estación como una tupla: línea, si tiene ascensor,
 // avenidas cercanas y si conecta con el Metropolitano
 typealias InfoEstacion = (linea: String, ascensor: Bool, avenidas: [String], metropolitano: Bool)
 
-var estaciones: [String: InfoEstacion] = [:]
-
+// Estaciones de la Línea 1 en orden real, de sur a norte
 let ordenLinea1 = [
     "Villa El Salvador", "Parque Industrial", "Pumacahua", "Villa María",
     "María Auxiliadora", "San Juan", "Atocongo", "Jorge Chávez", "Ayacucho",
@@ -16,11 +14,13 @@ let ordenLinea1 = [
     "San Martín", "Santa Rosa", "Bayóvar"
 ]
 
+// Estaciones de la Línea 2
 let ordenLinea2 = [
     "Evitamiento", "Óvalo Santa Anita", "Colectora Industrial",
     "Hermilio Valdizán", "Mercado Santa Anita"
 ]
 
+// Avenidas cercanas por estación, Línea 1
 let avenidasLinea1: [String: [String]] = [
     "Villa El Salvador": ["Av. Pastor Sevilla", "Av. Micaela Bastidas"],
     "Parque Industrial": ["Av. Los Héroes"],
@@ -50,6 +50,7 @@ let avenidasLinea1: [String: [String]] = [
     "Bayóvar": ["Av. Próceres de la Independencia", "Av. Fernando Wiesse"]
 ]
 
+// Avenidas cercanas por estación, Línea 2
 let avenidasLinea2: [String: [String]] = [
     "Evitamiento": ["Av. Nicolás Ayllón", "Vía de Evitamiento"],
     "Óvalo Santa Anita": ["Carretera Central", "Av. Los Ángeles"],
@@ -58,14 +59,16 @@ let avenidasLinea2: [String: [String]] = [
     "Mercado Santa Anita": ["Av. Los Ángeles"]
 ]
 
+// Estaciones con ascensor
 let conAscensor: Set<String> = [
     "Villa El Salvador", "La Cultura", "Miguel Grau", "Gamarra", "Bayóvar",
     "Evitamiento", "Mercado Santa Anita"
 ]
 
+// La única estación que marco con conexión al Metropolitano
 let estacionMetropolitano = "Miguel Grau"
 
-// Diccionario de lugares cercanos a cada estación (mall, parque, hospital, etc.)
+// Diccionario de lugares cercanos a cada estación
 // para que el usuario se pueda orientar al llegar
 let lugaresCercanos: [String: [String]] = [
     "Villa El Salvador": ["Parque Industrial de Villa El Salvador", "Municipalidad de VES"],
@@ -101,19 +104,19 @@ let lugaresCercanos: [String: [String]] = [
     "Mercado Santa Anita": ["Mercado Mayorista de Santa Anita"]
 ]
 
+// Tarifa y horario de cada línea (para la opción 5 del menú)
 let infoLineas: [String: (tarifa: String, horario: String)] = [
     "Línea 1": (tarifa: "S/ 1.50 (tarjeta propia de Línea 1)", horario: "Lunes a sábado 5:00-22:00, domingos y feriados 5:30-22:00"),
     "Línea 2": (tarifa: "S/ 1.40, S/ 0.70 tarifa reducida (Tarjeta Interoperable de Transporte)", horario: "Todos los días 6:00-23:00")
 ]
 
+// información de las líneas 3 y 4 es referencial y proyecciones propuestos
 let lineasFuturas: [String: String] = [
-    "Línea 3": "Aún en proyecto (sin construcción). Ruta futura: Comas - San Juan de Miraflores.",
-    "Línea 4": "Aún en construcción (solo el ramal al aeropuerto). Ruta futura: Callao - Santa Anita."
+    "Línea 3": "Aún en proyecto (sin construcción). Ruta futura referencial: Comas - San Juan de Miraflores.",
+    "Línea 4": "Aún en construcción (solo el ramal al aeropuerto). Ruta futura referencial: Callao - Santa Anita."
 ]
 
-// Estaciones de las líneas que aún no operan. Solo guardo el nombre y
-// a qué línea pertenecen, para poder avisar que existen en el mapa,
-// sin inventar
+// Estaciones de las líneas que aún no operan
 let estacionesFuturas: [String: String] = [
     "El Álamo": "Línea 3", "Huandoy": "Línea 3", "2 de Octubre": "Línea 3",
     "Villa Sol": "Línea 3", "Naranjal": "Línea 3", "Carlos Izaguirre": "Línea 3",
@@ -135,27 +138,40 @@ let estacionesFuturas: [String: String] = [
     "Mayorazgo": "Línea 4"
 ]
 
+// Minutos aprox entre estación y estación, según la línea
 let minutosPorTramo: [String: Double] = [
     "Línea 1": 2.2,
     "Línea 2": 1.75
 ]
 
-for nombre in ordenLinea1 {
-    let avenidas = avenidasLinea1[nombre] ?? []
-    let ascensor = conAscensor.contains(nombre)
-    let metropolitano = nombre == estacionMetropolitano
-    estaciones[nombre] = (linea: "Línea 1", ascensor: ascensor, avenidas: avenidas, metropolitano: metropolitano)
+// Arma el diccionario de estaciones (línea, ascensor, avenidas, Metropolitano)
+// juntando ambas líneas
+func construirEstaciones() -> [String: InfoEstacion] {
+    var resultado: [String: InfoEstacion] = [:]
+
+    for nombre in ordenLinea1 {
+        let avenidas = avenidasLinea1[nombre] ?? []
+        let ascensor = conAscensor.contains(nombre)
+        let metropolitano = nombre == estacionMetropolitano
+        resultado[nombre] = (linea: "Línea 1", ascensor: ascensor, avenidas: avenidas, metropolitano: metropolitano)
+    }
+
+    for nombre in ordenLinea2 {
+        let avenidas = avenidasLinea2[nombre] ?? []
+        let ascensor = conAscensor.contains(nombre)
+        resultado[nombre] = (linea: "Línea 2", ascensor: ascensor, avenidas: avenidas, metropolitano: false)
+    }
+
+    return resultado
 }
 
-for nombre in ordenLinea2 {
-    let avenidas = avenidasLinea2[nombre] ?? []
-    let ascensor = conAscensor.contains(nombre)
-    estaciones[nombre] = (linea: "Línea 2", ascensor: ascensor, avenidas: avenidas, metropolitano: false)
-}
+let estaciones: [String: InfoEstacion] = construirEstaciones()
 
-var conexiones: [String: [String]] = [:]
 
-func construirConexiones(orden: [String]) {
+// Por cada estación guarda su vecina anterior y siguiente dentro de la misma línea
+func construirConexiones(orden: [String]) -> [String: [String]] {
+    var resultado: [String: [String]] = [:]
+
     for i in 0..<orden.count {
         var vecinas: [String] = []
         if i > 0 {
@@ -164,14 +180,18 @@ func construirConexiones(orden: [String]) {
         if i < orden.count - 1 {
             vecinas.append(orden[i + 1])
         }
-        conexiones[orden[i]] = vecinas
+        resultado[orden[i]] = vecinas
     }
+
+    return resultado
 }
 
-construirConexiones(orden: ordenLinea1)
-construirConexiones(orden: ordenLinea2)
+// Junto las conexiones de ambas líneas en un solo diccionario
+let conexiones: [String: [String]] = construirConexiones(orden: ordenLinea1)
+    .merging(construirConexiones(orden: ordenLinea2)) { actual, _ in actual }
 
-//
+// Quita tildes y mayúsculas al texto para poder comparar
+// lo que escribe el usuario
 func normalizar(_ texto: String) -> String {
     return texto
         .folding(options: .diacriticInsensitive, locale: .current)
@@ -179,6 +199,7 @@ func normalizar(_ texto: String) -> String {
         .trimmingCharacters(in: .whitespaces)
 }
 
+// Busca el nombre correcto de una estación a partir de lo que escribió el usuario
 func buscarNombreReal(_ entrada: String) -> String? {
     let entradaNormalizada = normalizar(entrada)
     for clave in estaciones.keys {
@@ -189,6 +210,7 @@ func buscarNombreReal(_ entrada: String) -> String? {
     return nil
 }
 
+// Igual que arriba pero busca entre las estaciones futuras (Línea 3 y 4)
 func buscarEstacionFutura(_ entrada: String) -> (nombre: String, linea: String)? {
     let entradaNormalizada = normalizar(entrada)
     for (nombre, linea) in estacionesFuturas {
@@ -199,6 +221,8 @@ func buscarEstacionFutura(_ entrada: String) -> (nombre: String, linea: String)?
     return nil
 }
 
+// Muestra toda la ficha de la estación. Si no la encuentra entre
+// las operativas, revisa si es una futura antes de decir que no existe
 func mostrarInfo(de entrada: String) {
     if let nombre = buscarNombreReal(entrada) {
         let info = estaciones[nombre]!
@@ -222,12 +246,13 @@ func mostrarInfo(de entrada: String) {
             print("Conexiones directas: \(vecinas.joined(separator: " y "))")
         }
     } else if let futura = buscarEstacionFutura(entrada) {
-        print("\n\(futura.nombre) es una estación proyectada de la \(futura.linea), todavía no está en operación.")
+        print("\n\(futura.nombre) es una estación proyectada (referencial) de la \(futura.linea), todavía no está en operación.")
     } else {
         print("No encontré esa estación. Verifica que esté bien escrita e intenta de nuevo.")
     }
 }
 
+// Filtra las estaciones de la línea que pidió el usuario y las lista ordenadas
 func listarPorLinea(_ entrada: String) {
     let lineaNormalizada = normalizar(entrada)
     var encontradas: [String] = []
@@ -248,6 +273,8 @@ func listarPorLinea(_ entrada: String) {
     }
 }
 
+// Cuenta cuántas estaciones hay entre origen y destino (misma línea)
+// y calcula el tiempo aprox
 func calcularTiempo(desde entradaOrigen: String, hasta entradaDestino: String) {
     guard let origen = buscarNombreReal(entradaOrigen), let destino = buscarNombreReal(entradaDestino) else {
         print("No encontré una de las dos estaciones. Verifica que estén bien escritas.")
@@ -262,6 +289,7 @@ func calcularTiempo(desde entradaOrigen: String, hasta entradaDestino: String) {
         return
     }
 
+    // Orden correcto según la línea para saber la posición de cada estación
     let orden = infoOrigen.linea == "Línea 1" ? ordenLinea1 : ordenLinea2
     guard let indiceOrigen = orden.firstIndex(of: origen), let indiceDestino = orden.firstIndex(of: destino) else {
         return
@@ -274,6 +302,7 @@ func calcularTiempo(desde entradaOrigen: String, hasta entradaDestino: String) {
     print("Tiempo estimado: \(String(format: "%.0f", minutos)) minutos aprox.")
 }
 
+// imprime tarifa y horario de cada línea, más el estado de las futuras
 func mostrarTarifasYHorarios() {
     print("\n=== Tarifas y horarios ===")
     if let l1 = infoLineas["Línea 1"] {
@@ -287,13 +316,14 @@ func mostrarTarifasYHorarios() {
         print("  Horario: \(l2.horario)")
     }
 
-    print("\n=== Próximas líneas ===")
+    print("\n=== Próximas líneas (información referencial, sujeta a cambios) ===")
     for (linea, estado) in lineasFuturas.sorted(by: { $0.key < $1.key }) {
         print("\(linea): \(estado)")
     }
 }
 
 //commit 6
+// Menú principal, se repite hasta que el usuario elige salir
 print("=== Sistema de consulta - Metro de Lima ===")
 
 var seguir = true
@@ -317,6 +347,7 @@ while seguir {
         let linea = readLine() ?? ""
         listarPorLinea(linea)
     } else if opcion == "3" {
+        // solo muestra las vecinas directas, sin la ficha completa
         print("Nombre de la estación: ", terminator: "")
         let entrada = readLine() ?? ""
         if let nombre = buscarNombreReal(entrada), let vecinas = conexiones[nombre] {
