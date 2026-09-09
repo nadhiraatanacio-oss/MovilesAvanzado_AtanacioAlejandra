@@ -55,11 +55,27 @@ class SucursalLima: Sucursal {
 // --- TODO 15: SucursalProvincia ---
 // NO sobreescribas descuento() (hereda el 5 % de la base)
 // override costoEnvio(monto:): 8 % del monto, con un MINIMO de 50.0 (usa un if)
-
+class SucursalProvincia: Sucursal {
+    override func costoEnvio(monto: Double) -> Double {
+        let envio = monto * 0.08
+        if envio < 50.0 {
+            return 50.0
+        } else {
+            return envio
+        }
+    }
+}
 // --- TODO 16: SucursalOutlet ---
 // override descuento() -> 0.25
 // override costoEnvio(monto:) -> 0.0 (solo recojo en tienda)
-
+class SucursalOutlet: Sucursal {
+    override func descuento() -> Double {
+        return 0.25
+    }
+    override func costoEnvio(monto: Double) -> Double {
+        return 0.0
+    }
+}
 // --- TODO 17: El recorrido polimorfico (REGLA 4) ---
 // let refrigeradora = Electrodomestico(nombre: "Refrigeradora", marca: "Frost", precioLista: 2000.0, categoria: .lineaBlanca)
 // let licuadora = Electrodomestico(nombre: "Licuadora", marca: "Mix", precioLista: 250.0, categoria: .pequenos)
