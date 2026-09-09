@@ -170,3 +170,125 @@ func construirConexiones(orden: [String]) {
 
 construirConexiones(orden: ordenLinea1)
 construirConexiones(orden: ordenLinea2)
+
+//
+func normalizar(_ texto: String) -> String {
+    return texto
+        .folding(options: .diacriticInsensitive, locale: .current)
+        .lowercased()
+        .trimmingCharacters(in: .whitespaces)
+}
+
+func buscarNombreReal(_ entrada: String) -> String? {
+    let entradaNormalizada = normalizar(entrada)
+    for clave in estaciones.keys {
+        if normalizar(clave) == entradaNormalizada {
+            return clave
+        }
+    }
+    return nil
+}
+
+func buscarEstacionFutura(_ entrada: String) -> (nombre: String, linea: String)? {
+    let entradaNormalizada = normalizar(entrada)
+    for (nombre, linea) in estacionesFuturas {
+        if normalizar(nombre) == entradaNormalizada {
+            return (nombre, linea)
+        }
+    }
+    return nil
+}
+
+func mostrarInfo(de entrada: String) {
+    if let nombre = buscarNombreReal(entrada) {
+        let info = estaciones[nombre]!
+        print("\nEstación: \(nombre)")
+        print("Línea: \(info.linea)")
+        print("Tiene ascensor: \(info.ascensor ? "Sí" : "No")")
+        print("Avenidas cercanas: \(info.avenidas.joined(separator: ", "))")
+        print("Conecta con el Metropolitano: \(info.metropolitano ? "Sí" : "No")")
+
+        let cercanos = lugaresCercanos[nombre] ?? []
+        if cercanos.isEmpty {
+            print("Lugares cercanos: sin datos registrados")
+        } else {
+            print("Lugares cercanos: \(cercanos.joined(separator: ", "))")
+        }
+
+        let vecinas = conexiones[nombre] ?? []
+        if vecinas.isEmpty {
+            print("Conexiones directas: es estación terminal")
+        } else {
+            print("Conexiones directas: \(vecinas.joined(separator: " y "))")
+        }
+    } else if let futura = buscarEstacionFutura(entrada) {
+        print("\n\(futura.nombre) es una estación proyectada de la \(futura.linea), todavía no está en operación.")
+    } else {
+        print("No encontré esa estación. Verifica que esté bien escrita e intenta de nuevo.")
+    }
+}
+
+func listarPorLinea(_ entrada: String) {
+    let lineaNormalizada = normalizar(entrada)
+    var encontradas: [String] = []
+
+    for (nombre, info) in estaciones {
+        if normalizar(info.linea) == lineaNormalizada {
+            encontradas.append(nombre)
+        }
+    }
+
+    if encontradas.isEmpty {
+        print("No encontré estaciones de esa línea. Verifica que esté bien escrita (ej: Línea 1)")
+    } else {
+        print("\nEstaciones de \(entrada):")
+        for nombre in encontradas.sorted() {
+            print("- \(nombre)")
+        }
+    }
+}
+
+func calcularTiempo(desde entradaOrigen: String, hasta entradaDestino: String) {
+    guard let origen = buscarNombreReal(entradaOrigen), let destino = buscarNombreReal(entradaDestino) else {
+        print("No encontré una de las dos estaciones. Verifica que estén bien escritas.")
+        return
+    }
+
+    let infoOrigen = estaciones[origen]!
+    let infoDestino = estaciones[destino]!
+
+    if infoOrigen.linea != infoDestino.linea {
+        print("\(origen) y \(destino) están en líneas distintas, no puedo calcular un tiempo directo entre ellas.")
+        return
+    }
+
+    let orden = infoOrigen.linea == "Línea 1" ? ordenLinea1 : ordenLinea2
+    guard let indiceOrigen = orden.firstIndex(of: origen), let indiceDestino = orden.firstIndex(of: destino) else {
+        return
+    }
+
+    let tramos = abs(indiceDestino - indiceOrigen)
+    let minutos = Double(tramos) * (minutosPorTramo[infoOrigen.linea] ?? 2.0)
+
+    print("\nDe \(origen) a \(destino): \(tramos) estaciones de distancia")
+    print("Tiempo estimado: \(String(format: "%.0f", minutos)) minutos aprox.")
+}
+
+func mostrarTarifasYHorarios() {
+    print("\n=== Tarifas y horarios ===")
+    if let l1 = infoLineas["Línea 1"] {
+        print("Línea 1:")
+        print("  Tarifa: \(l1.tarifa)")
+        print("  Horario: \(l1.horario)")
+    }
+    if let l2 = infoLineas["Línea 2"] {
+        print("\nLínea 2:")
+        print("  Tarifa: \(l2.tarifa)")
+        print("  Horario: \(l2.horario)")
+    }
+
+    print("\n=== Próximas líneas ===")
+    for (linea, estado) in lineasFuturas.sorted(by: { $0.key < $1.key }) {
+        print("\(linea): \(estado)")
+    }
+}
