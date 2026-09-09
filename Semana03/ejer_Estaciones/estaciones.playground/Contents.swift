@@ -152,3 +152,21 @@ for nombre in ordenLinea2 {
     let ascensor = conAscensor.contains(nombre)
     estaciones[nombre] = (linea: "Línea 2", ascensor: ascensor, avenidas: avenidas, metropolitano: false)
 }
+
+var conexiones: [String: [String]] = [:]
+
+func construirConexiones(orden: [String]) {
+    for i in 0..<orden.count {
+        var vecinas: [String] = []
+        if i > 0 {
+            vecinas.append(orden[i - 1])
+        }
+        if i < orden.count - 1 {
+            vecinas.append(orden[i + 1])
+        }
+        conexiones[orden[i]] = vecinas
+    }
+}
+
+construirConexiones(orden: ordenLinea1)
+construirConexiones(orden: ordenLinea2)
