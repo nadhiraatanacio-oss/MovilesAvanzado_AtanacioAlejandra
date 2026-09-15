@@ -1,5 +1,6 @@
 // ===== CASO 1.5: HERENCIA Y POLIMORFISMO — LA CADENA DE SUCURSALES =====
 // Docente: Juan León
+
 enum CategoriaElectro {
     case lineaBlanca, tecnologia, pequenos
 }
@@ -35,9 +36,6 @@ class Sucursal {
 }
 
 // --- TODO 14: SucursalLima ---
-// override descuento() -> 0.10
-// override costoEnvio(monto:): si monto >= 1500 devuelve 0.0; si no, 30.0 (usa un if)
-
 class SucursalLima: Sucursal {
     override func descuento() -> Double {
         return 0.10
@@ -51,10 +49,7 @@ class SucursalLima: Sucursal {
     }
 }
 
-
 // --- TODO 15: SucursalProvincia ---
-// NO sobreescribas descuento() (hereda el 5 % de la base)
-// override costoEnvio(monto:): 8 % del monto, con un MINIMO de 50.0 (usa un if)
 class SucursalProvincia: Sucursal {
     override func costoEnvio(monto: Double) -> Double {
         let envio = monto * 0.08
@@ -65,9 +60,8 @@ class SucursalProvincia: Sucursal {
         }
     }
 }
+
 // --- TODO 16: SucursalOutlet ---
-// override descuento() -> 0.25
-// override costoEnvio(monto:) -> 0.0 (solo recojo en tienda)
 class SucursalOutlet: Sucursal {
     override func descuento() -> Double {
         return 0.25
@@ -76,26 +70,33 @@ class SucursalOutlet: Sucursal {
         return 0.0
     }
 }
+
 // --- TODO 17: El recorrido polimorfico (REGLA 4) ---
-// let refrigeradora = Electrodomestico(nombre: "Refrigeradora", marca: "Frost", precioLista: 2000.0, categoria: .lineaBlanca)
-// let licuadora = Electrodomestico(nombre: "Licuadora", marca: "Mix", precioLista: 250.0, categoria: .pequenos)
-// let sucursales: [Sucursal] = [SucursalLima(nombre: "Lima Centro", ciudad: "Lima"),
-//                                SucursalProvincia(nombre: "Provincia Cusco", ciudad: "Cusco"),
-//                                SucursalOutlet(nombre: "Outlet Ate", ciudad: "Lima")]
-// print("===== Refrigeradora (S/ 2000.0) =====")
-// for sucursal in sucursales { ___ }
-// print("===== Licuadora (S/ 250.0) =====")
-// for sucursal in sucursales { ___ }
+let refrigeradora = Electrodomestico(nombre: "Refrigeradora", marca: "Frost", precioLista: 2000.0, categoria: .lineaBlanca)
+let licuadora = Electrodomestico(nombre: "Licuadora", marca: "Mix", precioLista: 250.0, categoria: .pequenos)
+let sucursales: [Sucursal] = [SucursalLima(nombre: "Lima Centro", ciudad: "Lima"),
+                               SucursalProvincia(nombre: "Provincia Cusco", ciudad: "Cusco"),
+                               SucursalOutlet(nombre: "Outlet Ate", ciudad: "Lima")]
+
+print("===== Refrigeradora (S/ 2000.0) =====")
+for sucursal in sucursales { sucursal.cotizar(item: refrigeradora) }
+
+print("===== Licuadora (S/ 250.0) =====")
+for sucursal in sucursales { sucursal.cotizar(item: licuadora) }
 
 // --- TODO 18: La prueba del polimorfismo (REGLA 6) ---
-// Agrega SucursalOnline con envio fijo de 15.0, sumala al array,
-// y NO toques ni cotizar ni los for-in.
-// Responde en un comentario: cuantas lineas nuevas necesitaste?
+// Agregamos SucursalOnline sin tocar cotizar() ni los for-in
+class SucursalOnline: Sucursal {
+    override func costoEnvio(monto: Double) -> Double {
+        return 15.0
+    }
+}
+// Solo se necesitaron 3 lineas nuevas: la clase SucursalOnline (con su override) y agregarla al array de sucursales.
 
 // ===== FIX: Este codigo tiene 2 errores =====
 // Docente: Juan León
 class SucursalMall: Sucursal {
-    func descuento() -> Double { // FIX 7: no compila. Que palabra clave falta y por que Swift la exige?
+    override func descuento() -> Double { // FIX 7: faltaba 'override' porque Swift exige marcarlo cuando reemplazas un metodo heredado
         return 0.12
     }
 }
@@ -104,12 +105,13 @@ class SucursalExpress: Sucursal {
     let radioKm: Int
     init(nombre: String, ciudad: String, radioKm: Int) {
         self.radioKm = radioKm
-    } // FIX 8: no compila. Que llamada falta al final del init?
+        super.init(nombre: nombre, ciudad: ciudad) // FIX 8: faltaba llamar al init de la clase base para inicializar nombre y ciudad
+    }
 }
 
 // ===== PREDICT: Que imprime? =====
 // Docente: Juan León
 let misteriosa: Sucursal = SucursalLima(nombre: "Lima Centro", ciudad: "Lima")
-print(misteriosa.descuento()) // PREDICT 6: 0.05 o 0.1? Justifica: la variable es de tipo Sucursal...
+print(misteriosa.descuento()) // PREDICT 6: imprime 0.1 (no 0.05). Aunque el tipo declarado es Sucursal, el objeto real es SucursalLima; Swift usa despacho dinamico y llama al metodo de la clase real.
 let monto = 2000.0 * (1 - misteriosa.descuento())
-print(misteriosa.costoEnvio(monto: monto)) // PREDICT 7: ___
+print(misteriosa.costoEnvio(monto: monto)) // PREDICT 7: monto = 1800.0, como es >= 1500, costoEnvio devuelve 0.0
