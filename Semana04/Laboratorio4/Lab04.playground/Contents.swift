@@ -128,6 +128,7 @@ struct Libro {
     let autor: String
     var estado: EstadoLibro = .disponible
 }
+//Caso 2
 class Biblioteca {
     var libros: [Libro] = []
     
