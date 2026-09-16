@@ -115,3 +115,69 @@ let misteriosa: Sucursal = SucursalLima(nombre: "Lima Centro", ciudad: "Lima")
 print(misteriosa.descuento()) // PREDICT 6: imprime 0.1 (no 0.05). Aunque el tipo declarado es Sucursal, el objeto real es SucursalLima; Swift usa despacho dinamico y llama al metodo de la clase real.
 let monto = 2000.0 * (1 - misteriosa.descuento())
 print(misteriosa.costoEnvio(monto: monto)) // PREDICT 7: monto = 1800.0, como es >= 1500, costoEnvio devuelve 0.0
+
+// ===== CASO 2 — PARTE A: BIBLIOTECA (SIN IA) =====
+// Docente: Juan León
+
+enum EstadoLibro {
+    case disponible, prestado
+}
+
+struct Libro {
+    let titulo: String
+    let autor: String
+    var estado: EstadoLibro = .disponible
+}
+class Biblioteca {
+    var libros: [Libro] = []
+    
+    func agregar(libro: Libro) {
+        libros.append(libro)
+    }
+    
+    func prestar(titulo: String) -> Bool {
+        for i in 0..<libros.count {
+            if libros[i].titulo == titulo {
+                if libros[i].estado == .disponible {
+                    libros[i].estado = .prestado
+                    print("Préstamo aprobado: \(titulo)")
+                    return true
+                } else {
+                    print("Error: \(titulo) ya está prestado")
+                    return false
+                }
+            }
+        }
+        print("Error: no existe \(titulo)")
+        return false
+    }
+    
+    func devolver(titulo: String) -> Bool {
+        for i in 0..<libros.count {
+            if libros[i].titulo == titulo {
+                if libros[i].estado == .prestado {
+                    libros[i].estado = .disponible
+                    print("Devolución registrada: \(titulo)")
+                    return true
+                } else {
+                    print("Error: \(titulo) no estaba prestado")
+                    return false
+                }
+            }
+        }
+        print("Error: no existe \(titulo)")
+        return false
+    }
+    
+    func inventario() {
+        print("===== INVENTARIO =====")
+        for libro in libros {
+            switch libro.estado {
+            case .disponible:
+                print("\(libro.titulo) (\(libro.autor)) - disponible")
+            case .prestado:
+                print("\(libro.titulo) (\(libro.autor)) - prestado")
+            }
+        }
+    }
+}
