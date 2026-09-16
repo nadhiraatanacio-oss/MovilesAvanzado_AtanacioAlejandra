@@ -1,1 +1,24 @@
+### Actividad 01: Factura de cursos
 
+Los datos fijos son:
+
+- Nombre del estudiante.
+- DNI.
+- Si es alumno Tecsup.
+- Lista de cursos, precios y cantidades.
+
+El programa calcula automáticamente el subtotal, IGV, descuentos y total final.
+
+Requerimiento: El programa debe calcular y mostrar la factura de cursos utilizando los datos definidos en el código.
+
+### Actividad 02: Clientes
+
+Los datos fijos son:
+
+- Datos del cliente natural.
+- Datos del cliente jurídico.
+- Sus datos generales, como código, dirección y cuenta.
+
+El programa muestra los datos mediante clases, herencia y métodos.
+
+Requerimiento: El programa debe mostrar los datos de clientes naturales y jurídicos utilizando herencia y clases en Swift.
