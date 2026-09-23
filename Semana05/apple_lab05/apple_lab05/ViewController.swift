@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  apple_lab05
 //
-//  Created by Naomi Solanch Veliz Pie on 23/09/26.
+//  Created Alejandra Atanacio Pie on 23/09/26.
 //
 
 import UIKit
