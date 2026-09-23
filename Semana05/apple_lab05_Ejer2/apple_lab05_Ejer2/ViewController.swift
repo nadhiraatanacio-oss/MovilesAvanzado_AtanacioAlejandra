@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  apple_lab05_Ejer2
 //
-//  Created by Naomi Solanch Veliz Pie on 23/09/26.
+//  Created by Alejandra Atanacio on 23/09/26.
 //
 
 import UIKit
