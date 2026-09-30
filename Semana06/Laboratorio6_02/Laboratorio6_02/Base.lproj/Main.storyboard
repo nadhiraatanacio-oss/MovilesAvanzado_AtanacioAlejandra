@@ -74,12 +74,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Continuar"/>
+                                <connections>
+                                    <action selector="btnContinuar:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l6p-d4-fG5"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="Q1J-sV-Mt0"/>
+                    <connections>
+                        <outlet property="tfApellido" destination="iM3-YQ-04d" id="1oF-8J-OvN"/>
+                        <outlet property="tfDni" destination="R6V-TY-8mg" id="U15-Dc-LDE"/>
+                        <outlet property="tfNombre" destination="fAQ-Pp-FCf" id="TdO-Xi-bJe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
