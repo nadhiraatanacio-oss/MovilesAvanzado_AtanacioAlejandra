@@ -1,0 +1,49 @@
+// Calculadora de Préstamos - UIKit
+
+Aplicación iOS hecha con UIKit y Storyboard que calcula la cuota mensual
+y el monto total a pagar de un préstamo usando la fórmula de amortización.
+
+//// Requerimientos funcionales
+
+1. Permitir al usuario ingresar el capital inicial del préstamo en soles.
+2. Permitir al usuario ingresar la tasa de interés anual en porcentaje.
+3. Permitir al usuario ingresar el plazo del préstamo en años.
+4. Mostrar un teclado numérico con decimales en los tres campos de entrada.
+5. Mostrar un mensaje inicial indicando que se deben ingresar los datos
+   del préstamo al abrir la aplicación.
+6. Validar que el capital y el plazo sean mayores a cero y que la tasa
+   no sea negativa; si no, mostrar el mensaje "Por favor, ingresa valores
+   válidos."
+7. Convertir la tasa anual en tasa mensual (tasa / 100 / 12) y el plazo
+   en número total de pagos (años × 12).
+8. Calcular la cuota mensual con la fórmula de amortización
+   M = P × r(1 + r)^n / ((1 + r)^n − 1) al presionar el botón "Calcular".
+9. Calcular la cuota como capital / número de pagos cuando la tasa
+   ingresada es 0%.
+10. Calcular el monto total a pagar multiplicando la cuota mensual por
+    el número total de pagos.
+11. Mostrar la cuota mensual y el monto total en pantalla, en soles y
+    con dos decimales.
+
+/// Componentes de la interfaz
+
+- `capitalTextField`: campo para el capital del préstamo.
+- `tasaTextField`: campo para la tasa de interés anual (%).
+- `plazoTextField`: campo para el plazo en años.
+- `CalcularPrestamo`: acción del botón que realiza el cálculo.
+- `cuotaLabel`: muestra la cuota mensual.
+- `totalLabel`: muestra el monto total a pagar.
+
+## Cómo probarlo
+
+Correr la app en el simulador e ingresar:
+- Capital: 10000
+- Tasa: 12
+- Plazo: 2
+
+Resultado esperado:
+- Cuota mensual: S/ 470.73
+- Monto total: S/ 11297.63
+
+Si se deja un campo vacío o con valor inválido, se muestra el mensaje
+de validación.
