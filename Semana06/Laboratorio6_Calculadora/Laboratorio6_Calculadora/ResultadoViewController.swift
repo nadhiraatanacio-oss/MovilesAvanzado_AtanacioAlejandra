@@ -9,6 +9,10 @@ import UIKit
 
 class ResultadoViewController: UIViewController {
     
+    // recibe la venta calculada
+    var pVenta: VentaModel = VentaModel()
+    
+    
     @IBOutlet weak var lblSubtotal: UILabel!
     
     @IBOutlet weak var lblIgv: UILabel!
@@ -23,20 +27,20 @@ class ResultadoViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        
+        
+        
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
+        // mostrar los valores en soles
+        lblSubtotal.text = String(format: "S/. %.2f", pVenta.subtotal)
+        lblIgv.text = String(format: "S/. %.2f", pVenta.igv)
+        lblBase.text = String(format: "S/. %.2f", pVenta.base)
+        lblIntereses.text = String(format: "S/. %.2f", pVenta.intereses)
+        lblTotal.text = String(format: "S/. %.2f", pVenta.total)
+        lblCuota.text = String(format: "S/. %.2f", pVenta.cuota)    }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+ 
 
 }
