@@ -66,6 +66,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="tintColor" systemColor="systemTealColor"/>
                         <constraints>
                             <constraint firstItem="Gxn-VT-t2l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="24" id="3dP-jN-1W9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Gxn-VT-t2l" secondAttribute="trailing" constant="24" id="vC2-j8-Syr"/>
@@ -89,14 +90,64 @@
                     <view key="view" contentMode="scaleToFill" id="CRY-Yp-UZ4">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Vph-gu-3t7">
+                                <rect key="frame" x="24" y="196" width="345" height="208.66666666666663"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Precio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJE-2s-PzG">
+                                        <rect key="frame" x="0.0" y="0.0" width="345" height="21.666666666666668"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LFn-HS-S1B">
+                                        <rect key="frame" x="0.0" y="41.666666666666657" width="345" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="5Bk-O5-v1H">
+                                        <rect key="frame" x="0.0" y="82" width="345" height="32"/>
+                                        <connections>
+                                            <action selector="stepperCambio:" destination="flA-C7-UKN" eventType="valueChanged" id="J5J-FO-f5b"/>
+                                        </connections>
+                                    </stepper>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cantidad: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJU-2z-2Al">
+                                        <rect key="frame" x="0.0" y="134" width="345" height="20.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CSQ-Pa-2t0">
+                                        <rect key="frame" x="0.0" y="174.33333333333331" width="345" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="tinted" title="Agregar al carrito"/>
+                                        <connections>
+                                            <action selector="agregarTapped:" destination="flA-C7-UKN" eventType="touchUpInside" id="3m4-tU-mNk"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="oCK-iN-UM5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Vph-gu-3t7" firstAttribute="top" secondItem="oCK-iN-UM5" secondAttribute="top" constant="24" id="Avd-If-1ei"/>
+                            <constraint firstItem="Vph-gu-3t7" firstAttribute="leading" secondItem="oCK-iN-UM5" secondAttribute="leading" constant="24" id="G0k-IF-TRH"/>
+                            <constraint firstItem="oCK-iN-UM5" firstAttribute="trailing" secondItem="Vph-gu-3t7" secondAttribute="trailing" constant="24" id="KIB-ee-Gqc"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ioa-1m-TCi"/>
+                    <connections>
+                        <outlet property="cantidadLabel" destination="CJU-2z-2Al" id="h4b-ID-WbX"/>
+                        <outlet property="cantidadStepper" destination="5Bk-O5-v1H" id="hdF-i3-dOn"/>
+                        <outlet property="precioLabel" destination="hJE-2s-PzG" id="zNz-9S-Hpe"/>
+                        <outlet property="stockLabel" destination="LFn-HS-S1B" id="kI0-GM-gDh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4HF-vq-Omm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1998" y="131"/>
+            <point key="canvasLocation" x="1997.709923664122" y="130.98591549295776"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jZh-sS-faB">
@@ -118,8 +169,14 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemTealColor">
+            <color red="0.0" green="0.76470588235294112" blue="0.81568627450980391" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
