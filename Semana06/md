@@ -1,1 +1,55 @@
+# Calculadora de Venta a Plazos — Semana 06 
 
+App en UIKit + Storyboard que calcula la venta a plazos de un electrodoméstico
+y muestra el resultado en otra pantalla usando un segue Show y un modelo propio.
+
+## Requerimientos funcionales
+
+RF01. La pantalla "Nueva Venta" debe permitir ingresar: electrodoméstico,
+precio unitario, cantidad, número de meses e interés mensual (%).
+
+RF02. Los campos numéricos deben mostrar el teclado decimal.
+
+RF03. Al tocar "Calcular", la app debe calcular:
+- subtotal = precio unitario × cantidad
+- IGV = subtotal × 0.18
+- base = subtotal + IGV
+- intereses = base × (interés mensual / 100) × meses
+- total = base + intereses
+- cuota mensual = total / meses
+
+RF04. Si un campo está vacío o tiene texto no numérico, se toma como 0
+y la app no debe cerrarse.
+
+RF05. Si el número de meses es 0, la cuota mensual debe mostrarse como S/. 0.00
+(no se divide entre cero).
+
+RF06. Los resultados deben pasarse a la pantalla "Resultado" dentro de un
+objeto VentaModel, usando el segue Show con identifier `showResultado`
+y el método `prepare(for:sender:)`.
+
+RF07. La pantalla "Resultado" debe mostrar subtotal, IGV, base, intereses,
+total y cuota mensual, todos con formato en soles: `S/. 0.00`.
+
+RF08. Desde "Resultado" se debe poder regresar a "Nueva Venta" con el botón
+de retroceso del Navigation Controller.
+
+RF09. Al tocar fuera de los campos, el teclado debe ocultarse.
+
+## Cómo probarlo
+
+1. Ejecutar en el simulador (Cmd + R).
+2. Ingresar: Refrigeradora · precio 1750 · cantidad 2 · meses 12 · interés 1.
+3. Tocar "Calcular".
+4. Resultado esperado:
+
+| Concepto | Valor |
+|---|---|
+| Subtotal | S/. 3500.00 |
+| IGV (18%) | S/. 630.00 |
+| Base | S/. 4130.00 |
+| Intereses | S/. 495.60 |
+| Total | S/. 4625.60 |
+| Cuota mensual | S/. 385.47 |
+
+5. Probar dejando "Meses" vacío: la cuota debe salir S/. 0.00 sin que la app se cierre.
