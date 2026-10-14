@@ -1,19 +1,35 @@
-//
-//  ViewController.swift
-//  Semana07_A
-//
-//  Created by Tecsup on 14/10/26.
-//
+//Alejandra Atanacio
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+    // lista de profesores
+    var listaProfesores = [
+        Profesor(nombre: "Jaime Gomez", cargo: "Coordinador de Software", foto: UIImage(named: "avatar1")),
+        Profesor(nombre: "Jaime Farfan", cargo: "Docente de Software TC", foto: UIImage(named: "avatar2")),
+        Profesor(nombre: "Juan León", cargo: "Docente de Software TC", foto: UIImage(named: "avatar4")),
+        Profesor(nombre: "Silvia Montoya", cargo: "Docente de Software TC", foto: UIImage(named: "avatar3")),
+        Profesor(nombre: "Theobaldo Diaz", cargo: "Docente de Software TC", foto: UIImage(named: "avatar5")),
+        Profesor(nombre: "Elliot Garamendi", cargo: "Docente de Software TC", foto: UIImage(named: "avatar4")),
+        Profesor(nombre: "Edwin Huerto", cargo: "Docente de Redes TC", foto: UIImage(named: "avatar2"))
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
+    // Métodos del data source
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return listaProfesores.count
+    }
 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // crear un objeto para que se muestre en la celda
+        let cell = tableView.dequeueReusableCell(withIdentifier: "celda")!
+        cell.textLabel?.text = listaProfesores[indexPath.row].nombre
+        cell.detailTextLabel?.text = listaProfesores[indexPath.row].cargo
+        cell.imageView?.image = listaProfesores[indexPath.row].foto
+        return cell
+    }
 }
-
