@@ -53,7 +53,7 @@ struct ContentView: View {
                 // Grupo 4: de dónde salen los números
                 Section {
                     NavigationLink {
-                        Text("Parámetros legales – en construcción")
+                        ParametrosView()
                     } label: {
                         Label("Parámetros legales", systemImage: "info.circle")
                     }
