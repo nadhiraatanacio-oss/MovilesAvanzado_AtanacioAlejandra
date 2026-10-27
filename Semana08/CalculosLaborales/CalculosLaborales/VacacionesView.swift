@@ -1,10 +1,3 @@
-//
-//  VacacionesView.swift
-//  CalculosLaborales
-//
-//  Created by Naomi Solanch Veliz Pie on 27/10/26.
-//
-
 import SwiftUI
 
 struct VacacionesView: View {
@@ -45,7 +38,7 @@ struct VacacionesView: View {
                     Stepper("Meses completos: \(meses)", value: $meses, in: 0...11)
                     Stepper("Días adicionales: \(dias)", value: $dias, in: 0...29)
                 }
-            } else if regimen == .general {
+            } else {
                 Section {
                     Picker("Jornada semanal", selection: $jornada) {
                         ForEach(JornadaSemanal.allCases) { opcion in
@@ -58,7 +51,7 @@ struct VacacionesView: View {
                 } header: {
                     Text("Récord vacacional")
                 } footer: {
-                    Text("Mínimo \(Int(jornada.recordMinimo)) días efectivos (D. Leg. 713, art. 10).")
+                    Text("Mínimo \(Int(jornada.recordMinimo)) días efectivos (D. Leg. 713 art. 10; en MYPE por la Ley MYPE art. 48).")
                 }
             }
 
@@ -75,13 +68,13 @@ struct VacacionesView: View {
             }
 
             Section {
-                Text("• **MYPE:** 15 días son todo su derecho anual. Sin pago extra.")
+                Text("• **MYPE:** 15 días son todo su derecho anual. Puede reducir a 7 por acuerdo escrito y se le compensan 8 días.")
                 Text("• **Fraccionar (general):** toma 15 ahora y 15 después. Sin pago extra.")
                 Text("• **Reducir 30→15 (general):** descansa 15, trabaja 15 y se le pagan 15 días adicionales.")
             } header: {
-                Text("Los 3 casos de «15 días»")
+                Text("Los casos de «15 días»")
             } footer: {
-                Text("D.S. 013-2013-PRODUCE art. 55 · D. Leg. 713 arts. 17 y 19 · D.S. 002-2019-TR.")
+                Text("Ley MYPE art. 48 · D.S. 008-2008-TR art. 37 · D. Leg. 713 arts. 17 y 19 · D.S. 002-2019-TR.")
             }
             .font(.callout)
         }
@@ -125,11 +118,13 @@ struct VacacionesView: View {
                     FilaMonto(nombre: "(RC ÷ 12 × \(d.meses) + RC ÷ 360 × \(d.dias)) × \(d.diasDerecho)/30",
                               valor: d.monto)
                     if d.regimen != .general {
-                        Text("MYPE: proporcional a 15 días (supuesto académico).")
+                        Text("MYPE: proporcional a 15 días (Ley MYPE art. 48 + D. Leg. 713 art. 22).")
                             .font(.caption).foregroundStyle(.secondary)
                     }
                 case .reduccion:
-                    FilaMonto(nombre: "Compensación: RC ÷ 30 × 15", valor: d.monto)
+                    Text("Descansa \(d.diasDescanso) días y trabaja \(d.diasCompensados).")
+                        .font(.callout)
+                    FilaMonto(nombre: "Compensación: RC ÷ 30 × \(d.diasCompensados)", valor: d.monto)
                     if let total = d.totalMes {
                         FilaMonto(nombre: "Total del mes (sueldo y medio)", valor: total)
                     }
@@ -148,7 +143,9 @@ struct VacacionesView: View {
             } header: {
                 Text("3. Resultado")
             } footer: {
-                Text("\(d.regimen.rawValue): \(d.diasDerecho) días de vacaciones por año completo.")
+                Text(d.escenario == .reduccion && d.regimen != .general
+                     ? "MYPE: reducción de 15 a 7 días por acuerdo escrito (D.S. 008-2008-TR, art. 37)."
+                     : "\(d.regimen.rawValue): \(d.diasDerecho) días de vacaciones por año completo.")
             }
         }
     }

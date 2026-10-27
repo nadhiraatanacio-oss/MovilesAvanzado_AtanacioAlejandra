@@ -1,10 +1,3 @@
-//
-//  CalculoVacaciones.swift
-//  CalculosLaborales
-//
-//  Created by Naomi Solanch Veliz Pie on 27/10/26.
-//
-
 import Foundation
 
 /// Los 4 escenarios de vacaciones.
@@ -12,7 +5,7 @@ enum EscenarioVacaciones: String, CaseIterable, Identifiable {
     case completas = "Completas"
     case fraccionadas = "Fraccionadas"
     case truncas = "Truncas"
-    case reduccion = "Reducción 30 a 15"
+    case reduccion = "Reducción"
 
     var id: String { rawValue }
 }
@@ -39,8 +32,10 @@ struct DetalleVacaciones {
     let remuneracionComputable: Double
     let meses: Int
     let dias: Int
+    let diasCompensados: Int       // reducción: 15 general · 8 MYPE
+    let diasDescanso: Int          // reducción: 15 general · 7 MYPE
     let monto: Double              // lo que se paga en el escenario
-    let totalMes: Double?          // solo en reducción: RC + compensación
+    let totalMes: Double?          // solo reducción en régimen general: RC + compensación
 }
 
 enum ResultadoVacaciones {
@@ -79,13 +74,12 @@ enum CalculoVacaciones {
             if meses == 0 {
                 return .noCorresponde("Las vacaciones truncas requieren al menos un mes de servicios.")
             }
-        } else if regimen != .general {
-            // MYPE: solo vacaciones completas de 15 días
-            if escenario != .completas {
-                return .noCorresponde("El fraccionamiento y la reducción 30→15 son solo del régimen general.")
-            }
         } else {
-            // Régimen general: se exige récord vacacional
+            // El fraccionamiento (D. Leg. 1405) no aplica a regímenes especiales
+            if regimen != .general && escenario == .fraccionadas {
+                return .noCorresponde("El fraccionamiento (D. Leg. 1405) es solo del régimen general.")
+            }
+            // Récord vacacional: general y MYPE (Ley MYPE art. 48 → art. 10 D. Leg. 713)
             guard let record = Formato.numero(recordTexto) else {
                 return .error("Ingresa los días efectivos trabajados en el año.")
             }
@@ -95,9 +89,14 @@ enum CalculoVacaciones {
         }
 
         // 3. Calcular
-        let diasDerecho = (regimen == .general) ? Parametros.diasVacacionesGeneral : Parametros.diasVacacionesMype
+        let esGeneral = (regimen == .general)
+        let diasDerecho = esGeneral ? Parametros.diasVacacionesGeneral : Parametros.diasVacacionesMype
         let asignacion = tieneAsignacion ? Parametros.asignacionFamiliar : 0
         let rc = sueldo + asignacion
+
+        // Reducción: general 30→15 (compensa 15) · MYPE 15→7 (compensa 8, D.S. 008-2008-TR art. 37)
+        let diasCompensados = esGeneral ? 15 : 8
+        let diasDescanso = esGeneral ? 15 : 7
 
         var monto = 0.0
         var totalMes: Double? = nil
@@ -107,12 +106,12 @@ enum CalculoVacaciones {
             // Fraccionar NO cambia el monto
             monto = rc / 30 * Double(diasDerecho)
         case .truncas:
-            // MYPE: proporcional a 15 días (supuesto académico)
+            // MYPE: proporcional a 15 días (art. 48 Ley MYPE + art. 22 D. Leg. 713)
             monto = (rc / 12 * Double(meses) + rc / 360 * Double(dias)) * Double(diasDerecho) / 30
         case .reduccion:
-            // Compensación por los 15 días que trabaja en vez de descansar
-            monto = rc / 30 * 15
-            totalMes = rc + monto
+            // Compensación por los días que trabaja en vez de descansar
+            monto = rc / 30 * Double(diasCompensados)
+            if esGeneral { totalMes = rc + monto }
         }
 
         return .calculado(DetalleVacaciones(escenario: escenario,
@@ -123,6 +122,8 @@ enum CalculoVacaciones {
                                             remuneracionComputable: rc,
                                             meses: meses,
                                             dias: dias,
+                                            diasCompensados: diasCompensados,
+                                            diasDescanso: diasDescanso,
                                             monto: monto,
                                             totalMes: totalMes))
     }
