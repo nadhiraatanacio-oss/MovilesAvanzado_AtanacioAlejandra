@@ -26,7 +26,7 @@ struct ContentView: View {
                     }
 
                     NavigationLink {
-                        Text("Vacaciones – en construcción")
+                        VacacionesView()
                     } label: {
                         Label("Vacaciones", systemImage: "sun.max")
                     }
