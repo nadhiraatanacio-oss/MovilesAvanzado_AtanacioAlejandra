@@ -86,10 +86,17 @@ struct ParametrosView: View {
 
     /// Arma el texto de cada tramo: "Hasta 5 UIT", "Más de 5 hasta 20 UIT", "Más de 45 UIT"
     func textoTramo(_ i: Int) -> String {
-        let hasta = Int(Parametros.tramosIR[i].hastaUIT)
+        let tramos = Parametros.tramosIR
+
+        // El último tramo no tiene límite (es infinito): no se convierte a Int
+        if i == tramos.count - 1 {
+            let desde = Int(tramos[i - 1].hastaUIT)
+            return "Más de \(desde) UIT"
+        }
+
+        let hasta = Int(tramos[i].hastaUIT)
         if i == 0 { return "Hasta \(hasta) UIT" }
-        let desde = Int(Parametros.tramosIR[i - 1].hastaUIT)
-        if i == Parametros.tramosIR.count - 1 { return "Más de \(desde) UIT" }
+        let desde = Int(tramos[i - 1].hastaUIT)
         return "Más de \(desde) hasta \(hasta) UIT"
     }
 }
