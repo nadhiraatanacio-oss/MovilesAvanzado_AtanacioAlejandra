@@ -14,7 +14,7 @@ struct ContentView: View {
                 // Grupo 1: beneficios del trabajador
                 Section("Beneficios laborales") {
                     NavigationLink {
-                        Text("CTS – en construcción")
+                            CTSView()
                     } label: {
                         Label("CTS", systemImage: "banknote")
                     }
