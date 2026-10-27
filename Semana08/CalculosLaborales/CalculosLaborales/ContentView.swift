@@ -20,7 +20,7 @@ struct ContentView: View {
                     }
 
                     NavigationLink {
-                        Text("Gratificación – en construcción")
+                        GratificacionView()
                     } label: {
                         Label("Gratificación", systemImage: "gift")
                     }
