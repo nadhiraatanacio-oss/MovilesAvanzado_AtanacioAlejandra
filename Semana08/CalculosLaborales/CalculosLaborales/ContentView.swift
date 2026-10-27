@@ -44,7 +44,7 @@ struct ContentView: View {
                 // Grupo 3: contabilidad (trabajo grupal del PDF)
                 Section("Contabilidad") {
                     NavigationLink {
-                        Text("Cuentas por cobrar y pagar – en construcción")
+                        CuentasView()
                     } label: {
                         Label("Cuentas por cobrar y pagar", systemImage: "chart.bar")
                     }
