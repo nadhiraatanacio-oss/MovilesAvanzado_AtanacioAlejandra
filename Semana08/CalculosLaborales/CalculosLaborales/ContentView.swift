@@ -35,7 +35,7 @@ struct ContentView: View {
                 // Grupo 2: sueldos
                 Section("Remuneraciones") {
                     NavigationLink {
-                        Text("Pago de instructores – en construcción")
+                        InstructorView()
                     } label: {
                         Label("Pago de instructores", systemImage: "person.crop.rectangle")
                     }
