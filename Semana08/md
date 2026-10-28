@@ -1,1 +1,97 @@
+# Cálculos Laborales – Lab 08
 
+App iOS hecha en SwiftUI que calcula la CTS, la gratificación, las vacaciones
+y el pago mensual de un instructor, aplicando la ley laboral peruana vigente
+(octubre 2026). Cada cálculo valida los datos, aplica las reglas según el
+régimen de la empresa y muestra el resultado con su detalle paso a paso.
+
+## Requerimientos funcionales
+
+1. Mostrar un menú principal con los módulos CTS, Gratificación, Vacaciones,
+   Pago de instructores y Parámetros legales, y permitir volver al menú desde
+   cada pantalla.
+2. Calcular la CTS de noviembre a partir del régimen, el sueldo, la asignación
+   familiar, la gratificación de julio y los meses y días trabajados:
+   RC = sueldo + asignación + 1/6 de la gratificación;
+   CTS = RC ÷ 12 × meses + RC ÷ 360 × días.
+3. Aplicar el régimen laboral: 100% en régimen general, 50% en pequeña empresa,
+   y "No corresponde" en microempresa o si trabaja menos de 4 horas diarias.
+4. Calcular la gratificación de julio o diciembre por meses completos del
+   semestre: (sueldo + asignación) ÷ 6 × meses, a la mitad en pequeña empresa,
+   más la bonificación extraordinaria del 9% (EsSalud) o 6.75% (EPS).
+5. Calcular las vacaciones según el escenario: completas, fraccionadas,
+   truncas o reducción, con 30 días en régimen general y 15 días en pequeña
+   y microempresa.
+6. Verificar el récord vacacional (210 días trabajados con jornada de 5 días
+   o 260 con jornada de 6) antes de calcular vacaciones completas,
+   fraccionadas o reducción.
+7. Explicar el caso de los "15 días": tomar o fraccionar vacaciones no da
+   pago extra; solo vender días por acuerdo escrito se compensa (15 días en
+   régimen general y 8 en MYPE).
+8. Calcular el pago del instructor: bruto = horas × S/ 50 × 4, con un máximo
+   de 23 horas semanales, descontando AFP (11.37%) u ONP (13%).
+9. Calcular el Impuesto a la Renta de 5ta categoría del instructor: proyectar
+   el bruto × 14, restar 7 UIT, aplicar los tramos (8%, 14%, 17%, 20%, 30%)
+   y dividir entre 12; mostrar el sueldo neto y aparte el EsSalud (9%) que
+   paga el empleador.
+10. Mostrar los valores legales vigentes con su norma: UIT S/ 5,500,
+    RMV S/ 1,230, asignación familiar S/ 123, tasas y tramos del IR.
+11. Validar los datos ingresados y mostrar un mensaje claro de error o de
+    "No corresponde", sin mostrar 0 como resultado falso.
+12. Permitir limpiar el formulario para hacer un nuevo cálculo.
+
+## Estructura de datos
+
+- `Parametros`: enum con los valores legales (UIT, RMV, asignación familiar,
+  tasas de AFP, ONP y EsSalud, tramos del IR, pago por hora y horas máximas).
+- `Regimen`: enum con los regímenes general, pequeña empresa y microempresa.
+- `ResultadoCTS` (y los resultados de cada módulo): enum con tres casos:
+  `.calculado` con el detalle, `.noCorresponde` con el motivo y `.error`
+  con el dato a corregir.
+- `DetalleCTS`, `DetalleGratificacion`, `DetalleVacaciones`,
+  `DetalleInstructor`: structs con los montos de cada paso del cálculo.
+- `EscenarioVacaciones` y `JornadaSemanal`: enums con los casos de
+  vacaciones y la jornada de 5 o 6 días (récord 210 o 260).
+- `SistemaPension`: enum con AFP (11.37%) u ONP (13%).
+- Cada módulo separa la pantalla (`CTSView`, `GratificacionView`,
+  `VacacionesView`, `InstructorView`) de la lógica (`CalculoCTS`,
+  `CalculoGratificacion`, `CalculoVacaciones`, `CalculoInstructor`).
+
+## Cómo probarlo
+
+Correr la app en el simulador (Cmd + R) y usar el menú:
+1. CTS → General, sueldo 2100, asignación sí, gratificación 2223, 6 meses
+   → S/ 1,296.75
+2. Gratificación → General, julio, sueldo 2100, asignación sí, 6 meses,
+   EsSalud → S/ 2,423.07
+3. Vacaciones → General, Reducción, sueldo 3000, jornada 5 días, récord 220
+   → S/ 1,500 extra
+4. Pago de instructores → 23 horas, AFP → neto S/ 3,904.31
+5. Parámetros legales → ver UIT, RMV, asignación y tasas
+
+## Leyes aplicadas
+
+- **CTS:** D.S. 001-97-TR (TUO de la Ley de CTS): remuneración computable
+  con asignación y 1/6 de la gratificación, pago por meses y días, mínimo
+  4 horas diarias.
+- **Gratificación:** Ley 27735: un sueldo en julio y otro en diciembre, por
+  meses calendario completos.
+- **Bonificación extraordinaria:** Ley 30334 (9% con EsSalud) y
+  D.S. 012-2016-TR, art. 6 (6.75% con EPS).
+- **Vacaciones:** D. Leg. 713: 30 días por año y récord de 210/260 días
+  (art. 10), fraccionamiento (art. 17), reducción de 30 a 15 días (art. 19)
+  y vacaciones truncas (art. 22).
+- **Fraccionamiento:** D. Leg. 1405 y D.S. 002-2019-TR (solo régimen general).
+- **Pequeña y microempresa:** D.S. 013-2013-PRODUCE (Ley MYPE): CTS y
+  gratificación a la mitad en pequeña empresa, sin CTS ni gratificación en
+  microempresa, y 15 días de vacaciones (art. 48).
+- **Reducción de vacaciones en MYPE:** D.S. 008-2008-TR, art. 37 (de 15 a 7 días).
+- **Asignación familiar:** Ley 25129 (10% de la RMV).
+- **Remuneración Mínima Vital:** D.S. 015-2026-TR (S/ 1,230 desde el 01/10/2026).
+- **UIT 2026:** D.S. 301-2025-EF (S/ 5,500).
+- **Impuesto a la Renta de 5ta categoría:** TUO de la Ley del Impuesto a la
+  Renta: deducción de 7 UIT (art. 46) y tramos de 8% a 30% (art. 53).
+- **ONP:** D.L. 19990 (13%).
+- **AFP:** TUO de la Ley del Sistema Privado de Pensiones (D.S. 054-97-EF)
+  y tasas de la SBS (10% aporte + 1.37% seguro).
+- **EsSalud:** Ley 26790 (9% a cargo del empleador).
