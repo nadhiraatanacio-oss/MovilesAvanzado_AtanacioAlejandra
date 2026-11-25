@@ -10,14 +10,26 @@ extension Color {
     static let grisSuave = Color(red: 0.55, green: 0.56, blue: 0.62)
 }
 
+// Color del avatar según el id del usuario
+func colorAvatar(_ id: Int) -> Color {
+    let colores: [Color] = [.coral, .menta, .oro, .tinta, .grisSuave]
+    return colores[abs(id) % colores.count]
+}
+
+// Iniciales del nombre (ej. "Leanne Graham" -> "LG")
+func inicialesDe(_ nombre: String) -> String {
+    nombre.split(separator: " ").prefix(2).compactMap { $0.first }.map(String.init).joined().uppercased()
+}
+
 struct ContentView: View {
     @StateObject private var viewModel = UserViewModel()
 
     @State private var showingForm = false
     @State private var editingUser: User? = nil
+    @State private var usuarioSeleccionado: User? = nil   // Para abrir el detalle
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack(alignment: .bottomTrailing) {
                 Color.fondoApp.ignoresSafeArea()
 
@@ -29,6 +41,10 @@ struct ContentView: View {
                             FilaUsuario(user: user,
                                         esFavorito: viewModel.favoritos.contains(user.id)) {
                                 viewModel.toggleFavorito(user)
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                usuarioSeleccionado = user   // Abre el detalle
                             }
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
@@ -83,7 +99,10 @@ struct ContentView: View {
                 }
                 .padding(24)
             }
-            .navigationBarHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
+            .navigationDestination(item: $usuarioSeleccionado) { user in
+                UserDetailView(user: user)
+            }
             .onAppear {
                 if viewModel.users.isEmpty {
                     Task { await viewModel.fetchUsers() }
@@ -92,7 +111,10 @@ struct ContentView: View {
             .sheet(isPresented: $showingForm) {
                 if let user = editingUser {
                     UserFormView(name: user.name, email: user.email, isEditing: true) { name, email in
-                        let updated = User(id: user.id, name: name, email: email)
+                        // Conserva los demás datos del usuario y solo cambia nombre y email
+                        var updated = user
+                        updated.name = name
+                        updated.email = email
                         Task { await viewModel.updateUser(user: updated) }
                     }
                 } else {
@@ -102,6 +124,7 @@ struct ContentView: View {
                 }
             }
         }
+        .tint(.coral)
         .preferredColorScheme(.light)
     }
 
@@ -190,19 +213,13 @@ struct FilaUsuario: View {
     let esFavorito: Bool
     var onFavorito: () -> Void
 
-    private let colores: [Color] = [.coral, .menta, .oro, .tinta, .grisSuave]
-
-    private var iniciales: String {
-        user.name.split(separator: " ").prefix(2).compactMap { $0.first }.map(String.init).joined().uppercased()
-    }
-
     var body: some View {
         HStack(spacing: 14) {
-            Text(iniciales)
+            Text(inicialesDe(user.name))
                 .font(.system(size: 16, weight: .heavy, design: .rounded))
                 .foregroundColor(.white)
                 .frame(width: 48, height: 48)
-                .background(colores[user.id % colores.count])
+                .background(colorAvatar(user.id))
                 .clipShape(RoundedRectangle(cornerRadius: 16))
 
             VStack(alignment: .leading, spacing: 3) {
@@ -224,6 +241,10 @@ struct FilaUsuario: View {
                     .foregroundColor(esFavorito ? .oro : .grisSuave.opacity(0.6))
             }
             .buttonStyle(.plain)
+
+            Image(systemName: "chevron.right")
+                .font(.system(size: 13, weight: .bold))
+                .foregroundColor(.grisSuave.opacity(0.5))
         }
         .padding(14)
         .background(Color.white)
