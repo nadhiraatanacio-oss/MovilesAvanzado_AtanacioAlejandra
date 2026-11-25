@@ -1,1 +1,23 @@
+Requerimientos funcionales – App Lab 14 (Firebase)
 
+Autenticación
+
+RF-01: El sistema debe permitir registrar un usuario nuevo con correo y contraseña en Firebase Authentication.
+RF-02: El sistema debe validar que el correo y la contraseña no estén vacíos y que la contraseña tenga al menos 6 caracteres antes de registrar o iniciar sesión.
+RF-03: El sistema debe permitir iniciar sesión con un usuario ya registrado.
+RF-04: El sistema debe mostrar un mensaje de alerta cuando ocurra un error, por ejemplo correo ya registrado o contraseña incorrecta.
+RF-05: El sistema debe mantener la sesión iniciada: si el usuario ya ingresó antes, la app abre directamente el chat.
+RF-06: El sistema debe permitir cerrar sesión y volver a la pantalla de inicio con los campos vacíos.
+
+Chat en tiempo real
+
+RF-07: El sistema debe permitir enviar mensajes de texto y guardarlos en Firebase Realtime Database con el texto, el correo del autor, su ID y la fecha. No permite enviar mensajes vacíos.
+RF-08: El sistema debe mostrar los mensajes en tiempo real, ordenados por fecha, sin necesidad de recargar.
+RF-09: El sistema debe diferenciar los mensajes: los propios a la derecha y los de otros usuarios a la izquierda con su correo. Cada mensaje muestra su hora.
+
+Seguridad
+
+RF-10: El sistema debe permitir leer y escribir mensajes solo a usuarios con sesión iniciada, mediante las reglas de Firebase.
+Funcionalidades adicionales
+RF-11: El sistema debe permitir solicitar el cambio de contraseña con la opción "¿Olvidaste tu clave?", que envía un correo de restablecimiento al email ingresado.
+RF-12: El sistema debe permitir que el usuario elimine solo sus propios mensajes, manteniéndolos presionados. Los mensajes de otros usuarios no se pueden eliminar.
